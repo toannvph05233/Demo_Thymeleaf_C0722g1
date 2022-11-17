@@ -43,6 +43,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         templateResolver.setApplicationContext(applicationContext);
         templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setSuffix(".html");
+        templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setTemplateMode(TemplateMode.HTML);
         return templateResolver;
     }
@@ -57,7 +58,23 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
     @Bean
     public ThymeleafViewResolver viewResolver(){
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setCharacterEncoding("UTF-8");
         viewResolver.setTemplateEngine((ISpringTemplateEngine) templateEngine());
         return viewResolver;
+    }
+
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSizePerFile(90000000);
+        return multipartResolver;
+    }
+
+    // lấy thư mục tĩnh ở đâu;
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**")
+                .addResourceLocations("file:/Users/johntoan98gmail.com/Desktop/module4/Manager_Products/src/main/webapp/WEB-INF/");
+
     }
 }
